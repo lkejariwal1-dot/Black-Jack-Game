@@ -1,0 +1,79 @@
+isAlive = true
+hasJacked = false
+
+let Player = {
+    name: "Per",
+    chips: 100,
+    cards: [],
+    sum: 0
+}
+
+let mgs = document.getElementById("play-text")
+let sum_display = document.getElementById("sum-text")
+let card_display = document.getElementById("cards-text")
+let balance = document.getElementById("Player")
+
+function RandomNumber() {
+    return Math.floor(Math.random() * 10 + 2)
+}
+
+function check() {
+    if (Player.sum < 21) {
+        mgs.innerText = "Do you want to draw new card?"
+    }
+    else if (Player.sum === 21) {
+        mgs.innerText = "You got BlackJack."
+        balance.innerText = Player.name + ": $" + (Player.chips + 100)
+    }
+    else if (Player.chips === 0 || Player.sum > 21) {
+        mgs.innerText = "You are out of the game."
+        hasJacked = true
+        isAlive = false
+        balance.innerText = Player.name + ": $0"
+    }
+}
+
+function Start() {
+    if (!isAlive && hasJacked) {
+        Player.sum = 0
+        Player.cards = []
+        isAlive = true
+        hasJacked = false
+        mgs.innerText = "Want to play a round?"
+        sum_display.innerText = "Sum:"
+        card_display.innerText = "Cards:"
+        balance.innerText = Player.name + ": $" + Player.chips
+    }
+    Player.cards.push(RandomNumber())
+    Player.cards.push(RandomNumber())
+    Player.sum = Player.cards[0] + Player.cards[1]
+    balance.innerText = Player.name + ": $" + Player.chips
+    check()
+    sum_display.innerText = "Sum: " + Player.sum
+    let cards = "Cards: "
+    for (let i = 0; i < Player.cards.length; i++) {
+        cards += Player.cards[i] + " "
+    }
+    card_display.innerText = cards
+}
+
+function New_Card() {
+    if (isAlive && !hasJacked) {
+        balance.innerText = Player.name + ": $" + (Player.chips - 10)
+        Player.cards.push(RandomNumber())
+        Player.sum = 0
+        for (let i = 0; i < Player.cards.length; i++) {
+            Player.sum += Player.cards[i]
+        }
+        check()
+        sum_display.innerText = "Sum: " + Player.sum
+        let cards = "Cards: "
+        for (let i = 0; i < Player.cards.length; i++) {
+            cards += Player.cards[i] + " "
+        }
+        card_display.innerText = cards
+    }
+    else {
+        mgs.innerText = "You're out of game.... Start a new game."
+    }
+}
