@@ -22,10 +22,9 @@ function check() {
         mgs.innerText = "Do you want to draw new card?"
     }
     else if (Player.sum === 21) {
-        mgs.innerText = "You got BlackJack."
+        mgs.innerText = "You got BlackJack.\nWant to play a round?"
         Player.chips += 100
         balance.innerText = Player.name + ": $" + Player.chips
-        sum_display.innerText = "Sum:"
         card_display.innerText = "Cards:"
     }
     else if (Player.chips === 0 || Player.sum > 21) {
@@ -43,7 +42,13 @@ function Start() {
         Player.chips = 100
         isAlive = true
         hasJacked = false
-        mgs.innerText = "Want to play a round?"
+        sum_display.innerText = "Sum:"
+        card_display.innerText = "Cards:"
+    }
+    if (Player.sum === 21) {
+        Player.sum = 0
+        Player.cards = []
+        mgs.innerText = "Want to play another round?"
         sum_display.innerText = "Sum:"
         card_display.innerText = "Cards:"
     }
@@ -61,7 +66,7 @@ function Start() {
 }
 
 function New_Card() {
-    if (isAlive && !hasJacked) {
+    if (isAlive && !hasJacked && Player.sum !== 21) {
         Player.chips -= 10
         balance.innerText = Player.name + ": $" + Player.chips
         Player.cards.push(RandomNumber())
@@ -77,8 +82,7 @@ function New_Card() {
         }
         card_display.innerText = cards
     }
-    else if(Player.sum === 21){
-        check()
+    else if (Player.sum === 21) {
         Start()
     }
     else {
