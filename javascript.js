@@ -23,7 +23,10 @@ function check() {
     }
     else if (Player.sum === 21) {
         mgs.innerText = "You got BlackJack."
-        balance.innerText = Player.name + ": $" + (Player.chips + 100)
+        Player.chips += 100
+        balance.innerText = Player.name + ": $" + Player.chips
+        sum_display.innerText = "Sum:"
+        card_display.innerText = "Cards:"
     }
     else if (Player.chips === 0 || Player.sum > 21) {
         mgs.innerText = "You are out of the game."
@@ -42,7 +45,6 @@ function Start() {
         mgs.innerText = "Want to play a round?"
         sum_display.innerText = "Sum:"
         card_display.innerText = "Cards:"
-        balance.innerText = Player.name + ": $" + Player.chips
     }
     Player.cards.push(RandomNumber())
     Player.cards.push(RandomNumber())
@@ -59,7 +61,8 @@ function Start() {
 
 function New_Card() {
     if (isAlive && !hasJacked) {
-        balance.innerText = Player.name + ": $" + (Player.chips - 10)
+        Player.chips -= 10
+        balance.innerText = Player.name + ": $" + Player.chips
         Player.cards.push(RandomNumber())
         Player.sum = 0
         for (let i = 0; i < Player.cards.length; i++) {
