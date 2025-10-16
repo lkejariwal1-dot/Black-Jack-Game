@@ -40,6 +40,7 @@ function Start() {
     if (!isAlive && hasJacked) {
         Player.sum = 0
         Player.cards = []
+        Player.chips = 100
         isAlive = true
         hasJacked = false
         mgs.innerText = "Want to play a round?"
@@ -75,6 +76,10 @@ function New_Card() {
             cards += Player.cards[i] + " "
         }
         card_display.innerText = cards
+    }
+    else if(Player.sum === 21){
+        check()
+        Start()
     }
     else {
         mgs.innerText = "You're out of game.... Start a new game."
